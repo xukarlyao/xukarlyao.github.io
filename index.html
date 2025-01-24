@@ -3,35 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Website</title>
+    <title>My Blue World - 徐垚 XuYao</title>
     <style>
         body {
-            background: linear-gradient(to bottom, skyblue, deepskyblue);
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+            font-family: 'Roboto', sans-serif;
+            color: white;
             text-align: center;
-            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .content {
-            margin: auto;
-            max-width: 800px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        .container {
+            max-width: 900px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
         }
         h1 {
-            color: navy;
+            font-size: 48px;
+            margin-bottom: 20px;
         }
-        input, button {
+        .btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            color: white;
+            background-color: #1E90FF;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        .btn:hover {
+            background-color: #104E8B;
+        }
+        .hidden {
+            display: none;
+        }
+        .visitor-content, .caitie-content, .xuyao-content {
+            display: none;
+        }
+        .gallery img {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        input, textarea {
+            width: 100%;
             padding: 10px;
-            margin: 5px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            outline: none;
+        }
+        .image-upload, .youtube-input {
+            margin-top: 20px;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 300px;
+            overflow-y: scroll;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+        }
+        .chat-input {
+            display: flex;
+            margin-top: 20px;
+        }
+        .chat-input input {
+            flex: 1;
+        }
+        .chat-input button {
+            margin-left: 10px;
         }
     </style>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
-    <div class="content">
-        <h1>Welcome to My Website</h1>
-        <p>This is a free site hosted on GitHub Pages!</p>
+    <div class="container" id="welcomeScreen">
+        <h1>Welcome to My Blue World</h1>
+        <p>by 徐垚 XuYao</p>
+        <button class="btn" onclick="enterVisitor()">Visitor Entrance</button>
+        <button class="btn" onclick="googleLogin('caitie')">Caitie Please Enter</button>
+        <button class="btn" onclick="googleLogin('xuyao')">Xuyao Enter</button>
     </div>
+    
+    <div class="container visitor-content hidden" id="visitorContent">
+        <h1>Welcome, Visitor!</h1>
+        <p>Enjoy the beautiful artworks and blogs.</p>
+        <div class="gallery">
+            <img src="https://via.placeholder.com/800x400?text=Artwork+1" alt="Artwork 1">
+            <img src="https://via.placeholder.com/800x400?text=Artwork+2" alt="Artwork 2">
+        </div>
+    </div>
+    
+    <div class="container caitie-content hidden" id="caitieContent">
+        <h1>Welcome, Caitie!</h1>
+        <textarea placeholder="Leave a message..."></textarea>
+        <button class="btn">Submit Message</button>
+        <div class="image-upload">
+            <input type="file" accept="image/*,video/*">
+            <button class="btn">Upload</button>
+        </div>
+        <div class="youtube-input">
+            <input type="text" placeholder="Enter YouTube URL to play music">
+            <button class="btn" onclick="playMusic()">Play Music</button>
+        </div>
+        <div class="chat-container" id="chatContainer"></div>
+        <div class="chat-input">
+            <input type="text" id="chatMessage" placeholder="Type a message...">
+            <button class="btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <div class="container xuyao-content hidden" id="xuyaoContent">
+        <h1>Welcome, XuYao!</h1>
+        <p>Manage your site here.</p>
+        <!-- Add more management features here -->
+    </div>
+
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.getAuth(app);
+        const db = firebase.getFirestore(app);
+
+        // Google Login function
+        function googleLogin(role) {
+            const provider = new firebase.GoogleAuthProvider();
+            firebase.signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    const email = user.email;
+
+                    // Check user role and permissions
+                    firebase.getDoc(firebase.doc(db, 'users', email))
+                        .then(docSnapshot => {
+                            if (docSnapshot.exists) {
+                                const userData = docSnapshot.data();
+                                if (role === 'caitie' && userData.role === 'caitie') {
+                                    document.getElementById('welcomeScreen').classList.add('hidden');
+                                    document.getElementById('caitieContent').classList.remove('hidden');
+                                    loadChat();
+                                } else if (role === 'xuyao' && userData.role === 'xuyao') {
+                                    document.getElementById('welcomeScreen').classList.add('hidden');
+                                    document.getElementById('xuyaoContent').classList.remove('hidden');
+                                } else {
+                                    alert('Access denied.');
+                                }
+                            } else {
+                                alert('No permissions found for this email.');
+                            }
+                        });
+                })
+                .catch((error) => {
+                    const errorMessage = error.message;
+                    alert(`Error: ${errorMessage}`);
+                });
+        }
+
+        // Visitor Entrance function
+        function enterVisitor() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('visitorContent').classList.remove('hidden');
+        }
+
+        function playMusic() {
+            let url = document.querySelector('.youtube-input input').value;
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+
+        function loadChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            firebase.onSnapshot(firebase.collection(db, 'chats'), (snapshot) => {
+                chatContainer.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const message = doc.data();
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'chat-message';
+                    messageElement.textContent = `${message.sender}: ${message.message}`;
+                    chatContainer.appendChild(messageElement);
+                });
+            });
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('chatMessage');
+            const message = messageInput.value;
+            if (message) {
+                firebase.addDoc(firebase.collection(db, 'chats'), {
+                    sender: auth.currentUser.email,
+                    message: message,
+                    timestamp: firebase.Timestamp.now()
+                });
+                messageInput.value = '';
+            }
+        }
+    </script>
 </body>
 </html>
