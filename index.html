@@ -7,96 +7,88 @@
     <style>
         body {
             margin: 0;
-            padding: 0;
-            height: 100vh;
-            background: linear-gradient(to bottom, #87CEEB, #1E90FF);
             font-family: 'Roboto', sans-serif;
+            background-color: #87CEEB; /* Sky blue */
+            color: #333;
+        }
+        .header {
+            background-color: #1E90FF; /* Dodger blue */
             color: white;
+            padding: 20px;
             text-align: center;
+        }
+        .nav {
             display: flex;
             justify-content: center;
-            align-items: center;
+            background-color: #104E8B; /* Dark blue */
+            padding: 10px;
+        }
+        .nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .nav a:hover {
+            background-color: #1E90FF;
+            border-radius: 5px;
         }
         .container {
-            max-width: 900px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
         }
-        h1 {
-            font-size: 48px;
+        .intro, .share {
+            background: white;
+            padding: 20px;
             margin-bottom: 20px;
-        }
-        .btn {
-            padding: 15px 30px;
-            font-size: 20px;
-            color: white;
-            background-color: #1E90FF;
-            border: none;
             border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .btn:hover {
+        .intro h2, .share h2 {
+            color: #1E90FF;
+        }
+        .footer {
             background-color: #104E8B;
-        }
-        .hidden {
-            display: none;
-        }
-        .visitor-content, .caitie-content, .xuyao-content {
-            display: none;
-        }
-        .gallery img {
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
             width: 100%;
-            border-radius: 10px;
-            margin-top: 20px;
+            bottom: 0;
         }
     </style>
 </head>
 <body>
-    <div class="container" id="welcomeScreen">
-        <h1>Welcome to My Blue World</h1>
+
+    <div class="header">
+        <h1>My Blue World</h1>
         <p>by 徐垚 XuYao</p>
-        <button class="btn" onclick="enterVisitor()">Visitor Entrance</button>
-        <button class="btn" onclick="showCaitieContent()">Caitie Please Enter</button>
-        <button class="btn" onclick="showXuyaoContent()">Xuyao Enter</button>
     </div>
-    
-    <div class="container visitor-content hidden" id="visitorContent">
-        <h1>Welcome, Visitor!</h1>
-        <p>Enjoy the beautiful artworks and blogs.</p>
-        <div class="gallery">
-            <img src="https://via.placeholder.com/800x400?text=Artwork+1" alt="Artwork 1">
-            <img src="https://via.placeholder.com/800x400?text=Artwork+2" alt="Artwork 2">
-        </div>
+
+    <div class="nav">
+        <a href="#" onclick="enterVisitor()">Visitor Entrance</a>
+        <a href="#" onclick="googleLogin('caitie')">Caitie Please Enter</a>
+        <a href="#" onclick="googleLogin('xuyao')">Xuyao Enter</a>
     </div>
-    
-    <div class="container caitie-content hidden" id="caitieContent">
-        <h1>Welcome, Caitie!</h1>
-        <textarea placeholder="Leave a message..."></textarea>
-        <button class="btn">Submit Message</button>
-        <div class="image-upload">
-            <input type="file" accept="image/*,video/*">
-            <button class="btn">Upload</button>
+
+    <div class="container" id="visitorContent">
+        <div class="intro">
+            <h2>About Me</h2>
+            <p>Hello! I'm 徐垚 XuYao. Welcome to my personal website where I share my thoughts, artworks, and experiences.</p>
         </div>
-        <div class="youtube-input">
-            <input type="text" placeholder="Enter YouTube URL to play music">
-            <button class="btn" onclick="playMusic()">Play Music</button>
-        </div>
-        <div class="chat-container" id="chatContainer"></div>
-        <div class="chat-input">
-            <input type="text" id="chatMessage" placeholder="Type a message...">
-            <button class="btn" onclick="sendMessage()">Send</button>
+        <div class="share">
+            <h2>My Share</h2>
+            <p>Here you can find my latest blog posts, photos, and videos. Enjoy!</p>
+            <div class="gallery">
+                <img src="https://via.placeholder.com/800x400?text=Artwork+1" alt="Artwork 1">
+                <img src="https://via.placeholder.com/800x400?text=Artwork+2" alt="Artwork 2">
+            </div>
         </div>
     </div>
 
-    <div class="container xuyao-content hidden" id="xuyaoContent">
-        <h1>Welcome, XuYao!</h1>
-        <p>Manage your site here.</p>
-        <!-- Add more management features here -->
+    <div class="footer">
+        <p>&copy; 2025 徐垚 XuYao. All rights reserved.</p>
     </div>
 
     <script>
@@ -106,38 +98,16 @@
             document.getElementById('visitorContent').classList.remove('hidden');
         }
 
-        // Show Caitie content without Firebase (for testing purposes)
-        function showCaitieContent() {
-            document.getElementById('welcomeScreen').classList.add('hidden');
-            document.getElementById('caitieContent').classList.remove('hidden');
+        // Caitie Login function
+        function googleLogin(role) {
+            alert('This feature requires Firebase configuration.');
         }
 
-        // Show Xuyao content without Firebase (for testing purposes)
-        function showXuyaoContent() {
-            document.getElementById('welcomeScreen').classList.add('hidden');
-            document.getElementById('xuyaoContent').classList.remove('hidden');
-        }
-
-        function playMusic() {
-            let url = document.querySelector('.youtube-input input').value;
-            if (url) {
-                window.open(url, '_blank');
-            }
-        }
-
-        function loadChat() {
-            const chatContainer = document.getElementById('chatContainer');
-            // This function will load chat messages from Firebase (to be implemented)
-        }
-
-        function sendMessage() {
-            const messageInput = document.getElementById('chatMessage');
-            const message = messageInput.value;
-            if (message) {
-                // This function will send chat messages to Firebase (to be implemented)
-                messageInput.value = '';
-            }
+        // Xuyao Login function
+        function googleLogin(role) {
+            alert('This feature requires Firebase configuration.');
         }
     </script>
+
 </body>
 </html>
