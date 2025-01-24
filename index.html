@@ -153,73 +153,21 @@
             <h2>My Share</h2>
             <p>Here you can find my latest blog posts, photos, and videos. Enjoy!</p>
             <div class="gallery">
-                <img src="https://via.placeholder.com/800x400?text=Artwork+1" alt="Artwork 1">
-                <img src="https://via.placeholder.com/800x400?text=Artwork+2" alt="Artwork 2">
             </div>
         </div>
         <div class="section hidden" id="blogPosts">
             <h2>Latest Blog Posts</h2>
             <p>Stay updated with my latest blog posts and thoughts.</p>
             <ul>
-                <li><a href="#">Blog Post 1</a></li>
-                <li><a href="#">Blog Post 2</a></li>
-                <li><a href="#">Blog Post 3</a></li>
             </ul>
         </div>
         <div class="section hidden" id="contactMe">
             <h2>Contact Me</h2>
             <p>Feel free to reach out to me through my social media channels or send me an email.</p>
             <ul>
-                <li>Email: <a href="mailto:example@example.com">example@example.com</a></li>
-                <li>Twitter: <a href="https://twitter.com/example" target="_blank">@example</a></li>
-                <li>LinkedIn: <a href="https://linkedin.com/in/example" target="_blank">example</a></li>
+                <li>Email: <a href="mailto:xyzxw1229@gmail.com">xyzxw1229@gmail.com</a></li>
+                <li>Wechat: <a href="https://wechat.com/example" target="_blank">xfs18796613716</a></li>
             </ul>
-        </div>
-    </div>
-
-    <div class="container main-container hidden" id="caitieContent">
-        <div class="nav-buttons">
-            <button class="btn" onclick="showSection('messageXuYao')">Message XuYao</button>
-            <button class="btn" onclick="showSection('sharePhotos')">Share Photos</button>
-            <button class="btn" onclick="showSection('postBlogs')">Post Blogs</button>
-        </div>
-        <div class="section hidden" id="messageXuYao">
-            <h2>Message XuYao</h2>
-            <p>Here you can send messages, images, voice messages, and make voice calls to XuYao.</p>
-            <!-- Message functionality will be implemented here -->
-        </div>
-        <div class="section hidden" id="sharePhotos">
-            <h2>Share Photos</h2>
-            <p>Upload your photos to share in the My Share section.</p>
-            <!-- Photo upload functionality will be implemented here -->
-        </div>
-        <div class="section hidden" id="postBlogs">
-            <h2>Post Blogs</h2>
-            <p>Write and post your blogs to the Blog Posts section.</p>
-            <!-- Blog post functionality will be implemented here -->
-        </div>
-    </div>
-
-    <div class="container main-container hidden" id="xuyaoContent">
-        <div class="nav-buttons">
-            <button class="btn" onclick="showSection('messageCaitie')">Message Caitie</button>
-            <button class="btn" onclick="showSection('editVisitorPage')">Edit Visitor Page</button>
-            <button class="btn" onclick="showSection('manageWebsite')">Manage Website</button>
-        </div>
-        <div class="section hidden" id="messageCaitie">
-            <h2>Message Caitie</h2>
-            <p>Here you can send messages, images, voice messages, and make voice calls to Caitie.</p>
-            <!-- Message functionality will be implemented here -->
-        </div>
-        <div class="section hidden" id="editVisitorPage">
-            <h2>Edit Visitor Page</h2>
-            <p>Here you can edit the content of the Visitor Page.</p>
-            <!-- Edit visitor page functionality will be implemented here -->
-        </div>
-        <div class="section hidden" id="manageWebsite">
-            <h2>Manage Website</h2>
-            <p>Manage and maintain the backend of the website.</p>
-            <!-- Website management functionality will be implemented here -->
         </div>
     </div>
 
@@ -227,25 +175,7 @@
         <p>&copy; 2025 徐垚 XuYao. All rights reserved.</p>
     </div>
 
-    <!-- Firebase App (the core Firebase SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <!-- Firebase Authentication -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
     <script>
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-    apiKey: "AIzaSyAIeqqAn4L3h6Vdw9x5_Tku3Qd6ilKvHSA",
-    authDomain: "xuyao-80a2b.firebaseapp.com",
-    projectId: "xuyao-80a2b",
-    storageBucket: "xuyao-80a2b.firebasestorage.app",
-    messagingSenderId: "237530536740",
-    appId: "1:237530536740:web:989ff51d3ad64f467571b1",
-    measurementId: "G-6B1YGQRKD0"
-    };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
         function enterVisitor() {
             document.getElementById('welcomeScreen').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
@@ -258,24 +188,6 @@
 
             // Show the selected section
             document.getElementById(sectionId).classList.remove('hidden');
-        }
-
-        function googleLogin(user) {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider).then(result => {
-                const email = result.user.email;
-                if (user === 'caitie' && email === 'caitie@gmail.com') {
-                    document.getElementById('welcomeScreen').classList.add('hidden');
-                    document.getElementById('caitieContent').classList.remove('hidden');
-                } else if (user === 'xuyao' && email === 'xuyao@gmail.com') {
-                    document.getElementById('welcomeScreen').classList.add('hidden');
-                    document.getElementById('xuyaoContent').classList.remove('hidden');
-                } else {
-                    alert('Unauthorized access');
-                }
-            }).catch(error => {
-                console.error(error);
-            });
         }
 
         // Search functionality
@@ -295,6 +207,21 @@
             });
         });
     </script>
+
+<script>
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, and Ctrl+U
+        if (e.keyCode == 123 || 
+            (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || 
+            (e.ctrlKey && e.keyCode == 85)) {
+            e.preventDefault();
+        }
+    });
+</script>
 
 </body>
 </html>
