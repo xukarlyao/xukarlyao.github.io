@@ -22,18 +22,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-top: -100px; /* Move the content up */
         }
         .welcome-container h1 {
-            font-size: 48px;
+            font-size: 64px; /* Larger font size */
             color: #1E90FF; /* Dodger blue */
         }
         .welcome-container p {
-            font-size: 24px;
+            font-size: 28px; /* Slightly larger font size */
             color: #104E8B; /* Dark blue */
+            margin-bottom: 40px; /* Add some space above the buttons */
         }
         .btn {
-            padding: 15px 30px;
-            font-size: 20px;
+            padding: 20px 40px; /* Larger padding */
+            font-size: 24px; /* Larger font size */
             color: white;
             background-color: #1E90FF;
             border: none;
@@ -45,6 +47,14 @@
         .btn:hover {
             background-color: #104E8B;
         }
+        .btn-large {
+            width: 400px; /* Larger width for the visitor button */
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Add space between buttons */
+        }
         .hidden {
             display: none;
         }
@@ -52,6 +62,7 @@
             padding: 20px;
             max-width: 1200px;
             margin: auto;
+            text-align: center; /* Center the content */
         }
         .section {
             background: white;
@@ -81,9 +92,10 @@
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
+            gap: 20px; /* Add space between buttons */
         }
         .nav-buttons .btn {
-            margin: 5px;
+            margin: 10px;
         }
     </style>
 </head>
@@ -92,9 +104,11 @@
     <div class="welcome-container" id="welcomeScreen">
         <h1>Welcome to My Blue World</h1>
         <p>by 徐垚 XuYao</p>
-        <button class="btn" onclick="enterVisitor()">Visitor Entrance</button>
-        <button class="btn" onclick="googleLogin('caitie')">Caitie Please Enter</button>
-        <button class="btn" onclick="googleLogin('xuyao')">Xuyao Enter</button>
+        <button class="btn btn-large" onclick="enterVisitor()">Visitor Entrance</button>
+        <div class="btn-group">
+            <button class="btn" onclick="googleLogin('caitie')">Caitie Enter</button>
+            <button class="btn" onclick="googleLogin('xuyao')">Xuyao Enter</button>
+        </div>
     </div>
 
     <div class="container main-container hidden" id="mainContent">
@@ -154,11 +168,40 @@
             document.getElementById(sectionId).classList.remove('hidden');
         }
 
-        // Caitie Login function
+        // Caitie and Xuyao Login function
         function googleLogin(role) {
-            alert('This feature requires Firebase configuration.');
+            if (role === 'xuyao') {
+                // Show edit options for Xuyao
+                alert('This feature requires Firebase configuration.');
+            } else {
+                alert('This feature requires Firebase configuration.');
+            }
         }
     </script>
+
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAIeqqAn4L3h6Vdw9x5_Tku3Qd6ilKvHSA",
+    authDomain: "xuyao-80a2b.firebaseapp.com",
+    projectId: "xuyao-80a2b",
+    storageBucket: "xuyao-80a2b.firebasestorage.app",
+    messagingSenderId: "237530536740",
+    appId: "1:237530536740:web:989ff51d3ad64f467571b1",
+    measurementId: "G-6B1YGQRKD0"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 
 </body>
 </html>
