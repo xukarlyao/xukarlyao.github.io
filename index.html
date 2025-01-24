@@ -8,34 +8,39 @@
         body {
             margin: 0;
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to bottom, #87CEEB, #1E90FF); /* 改为渐变色 */
+            background: linear-gradient(to bottom, #87CEEB, #1E90FF);
             color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden; /* Prevent body from scrolling */
         }
-        .welcome-container, .main-container {
-            text-align: center;
+        .main-container {
+            overflow-y: auto; /* Enable vertical scrolling */
+            width: 100%;
+            height: 100vh; /* Full height to allow scrolling */
+            box-sizing: border-box;
         }
         .welcome-container {
+            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: -100px; /* Move the content up */
+            margin-top: -100px;
         }
         .welcome-container h1 {
-            font-size: 64px; /* Larger font size */
-            color: #1E90FF; /* Dodger blue */
+            font-size: 64px;
+            color: #1E90FF;
         }
         .welcome-container p {
-            font-size: 28px; /* Slightly larger font size */
-            color: #104E8B; /* Dark blue */
-            margin-bottom: 40px; /* Add some space above the buttons */
+            font-size: 28px;
+            color: #104E8B;
+            margin-bottom: 40px;
         }
         .btn {
-            padding: 20px 40px; /* Larger padding */
-            font-size: 24px; /* Larger font size */
+            padding: 20px 40px;
+            font-size: 24px;
             color: white;
             background-color: #1E90FF;
             border: none;
@@ -48,12 +53,12 @@
             background-color: #104E8B;
         }
         .btn-large {
-            width: 400px; /* Larger width for the visitor button */
+            width: 400px;
         }
         .btn-group {
             display: flex;
             justify-content: center;
-            gap: 20px; /* Add space between buttons */
+            gap: 20px;
         }
         .hidden {
             display: none;
@@ -62,7 +67,7 @@
             padding: 20px;
             max-width: 1200px;
             margin: auto;
-            text-align: center; /* Center the content */
+            text-align: center;
         }
         .section {
             background: white;
@@ -92,10 +97,29 @@
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
-            gap: 20px; /* Add space between buttons */
+            gap: 20px;
+            margin-top: 20px;
         }
         .nav-buttons .btn {
             margin: 10px;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+        .search-container input {
+            width: 80%;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #1E90FF;
+            border-radius: 5px;
+        }
+        .highlight {
+            background-color: yellow;
         }
     </style>
 </head>
@@ -117,6 +141,9 @@
             <button class="btn" onclick="showSection('myShare')">My Share</button>
             <button class="btn" onclick="showSection('blogPosts')">Blog Posts</button>
             <button class="btn" onclick="showSection('contactMe')">Contact Me</button>
+        </div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search...">
         </div>
         <div class="section hidden" id="aboutMe">
             <h2>About Me</h2>
@@ -150,36 +177,123 @@
         </div>
     </div>
 
+    <div class="container main-container hidden" id="caitieContent">
+        <div class="nav-buttons">
+            <button class="btn" onclick="showSection('messageXuYao')">Message XuYao</button>
+            <button class="btn" onclick="showSection('sharePhotos')">Share Photos</button>
+            <button class="btn" onclick="showSection('postBlogs')">Post Blogs</button>
+        </div>
+        <div class="section hidden" id="messageXuYao">
+            <h2>Message XuYao</h2>
+            <p>Here you can send messages, images, voice messages, and make voice calls to XuYao.</p>
+            <!-- Message functionality will be implemented here -->
+        </div>
+        <div class="section hidden" id="sharePhotos">
+            <h2>Share Photos</h2>
+            <p>Upload your photos to share in the My Share section.</p>
+            <!-- Photo upload functionality will be implemented here -->
+        </div>
+        <div class="section hidden" id="postBlogs">
+            <h2>Post Blogs</h2>
+            <p>Write and post your blogs to the Blog Posts section.</p>
+            <!-- Blog post functionality will be implemented here -->
+        </div>
+    </div>
+
+    <div class="container main-container hidden" id="xuyaoContent">
+        <div class="nav-buttons">
+            <button class="btn" onclick="showSection('messageCaitie')">Message Caitie</button>
+            <button class="btn" onclick="showSection('editVisitorPage')">Edit Visitor Page</button>
+            <button class="btn" onclick="showSection('manageWebsite')">Manage Website</button>
+        </div>
+        <div class="section hidden" id="messageCaitie">
+            <h2>Message Caitie</h2>
+            <p>Here you can send messages, images, voice messages, and make voice calls to Caitie.</p>
+            <!-- Message functionality will be implemented here -->
+        </div>
+        <div class="section hidden" id="editVisitorPage">
+            <h2>Edit Visitor Page</h2>
+            <p>Here you can edit the content of the Visitor Page.</p>
+            <!-- Edit visitor page functionality will be implemented here -->
+        </div>
+        <div class="section hidden" id="manageWebsite">
+            <h2>Manage Website</h2>
+            <p>Manage and maintain the backend of the website.</p>
+            <!-- Website management functionality will be implemented here -->
+        </div>
+    </div>
+
     <div class="footer">
         <p>&copy; 2025 徐垚 XuYao. All rights reserved.</p>
     </div>
 
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <!-- Firebase Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
     <script>
-        // Visitor Entrance function
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+    apiKey: "AIzaSyAIeqqAn4L3h6Vdw9x5_Tku3Qd6ilKvHSA",
+    authDomain: "xuyao-80a2b.firebaseapp.com",
+    projectId: "xuyao-80a2b",
+    storageBucket: "xuyao-80a2b.firebasestorage.app",
+    messagingSenderId: "237530536740",
+    appId: "1:237530536740:web:989ff51d3ad64f467571b1",
+    measurementId: "G-6B1YGQRKD0"
+    };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
         function enterVisitor() {
             document.getElementById('welcomeScreen').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
         }
 
-        // Show specific section
         function showSection(sectionId) {
+            // Hide all sections
             const sections = document.querySelectorAll('.section');
             sections.forEach(section => section.classList.add('hidden'));
+
+            // Show the selected section
             document.getElementById(sectionId).classList.remove('hidden');
         }
 
-        // Caitie and Xuyao Login function
-        function googleLogin(role) {
-            if (role === 'xuyao') {
-                // Show edit options for Xuyao
-                alert('This feature requires Firebase configuration.');
-            } else {
-                alert('This feature requires Firebase configuration.');
-            }
+        function googleLogin(user) {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider).then(result => {
+                const email = result.user.email;
+                if (user === 'caitie' && email === 'caitie@gmail.com') {
+                    document.getElementById('welcomeScreen').classList.add('hidden');
+                    document.getElementById('caitieContent').classList.remove('hidden');
+                } else if (user === 'xuyao' && email === 'xuyao@gmail.com') {
+                    document.getElementById('welcomeScreen').classList.add('hidden');
+                    document.getElementById('xuyaoContent').classList.remove('hidden');
+                } else {
+                    alert('Unauthorized access');
+                }
+            }).catch(error => {
+                console.error(error);
+            });
         }
-        document.addEventListener('contextmenu', function(event) {
-    event.preventDefault();
-});
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value.toLowerCase();
+            const sections = document.querySelectorAll('.section');
+
+            sections.forEach(section => {
+                section.classList.remove('highlight');
+                section.querySelectorAll('*').forEach(element => {
+                    element.classList.remove('highlight');
+                    if (element.textContent.toLowerCase().includes(query)) {
+                        element.classList.add('highlight');
+                    }
+                });
+            });
+        });
     </script>
 
 </body>
