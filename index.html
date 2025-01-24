@@ -38,15 +38,23 @@
             max-width: 1200px;
             margin: auto;
         }
-        .intro, .share {
+        .hidden {
+            display: none;
+        }
+        .intro, .share, .blog, .contact {
             background: white;
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .intro h2, .share h2 {
+        .intro h2, .share h2, .blog h2, .contact h2 {
             color: #1E90FF;
+        }
+        .gallery img {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 20px;
         }
         .footer {
             background-color: #104E8B;
@@ -56,6 +64,20 @@
             position: fixed;
             width: 100%;
             bottom: 0;
+        }
+        .btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            color: white;
+            background-color: #1E90FF;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        .btn:hover {
+            background-color: #104E8B;
         }
     </style>
 </head>
@@ -72,7 +94,7 @@
         <a href="#" onclick="googleLogin('xuyao')">Xuyao Enter</a>
     </div>
 
-    <div class="container" id="visitorContent">
+    <div class="container hidden" id="visitorContent">
         <div class="intro">
             <h2>About Me</h2>
             <p>Hello! I'm 徐垚 XuYao. Welcome to my personal website where I share my thoughts, artworks, and experiences.</p>
@@ -85,6 +107,24 @@
                 <img src="https://via.placeholder.com/800x400?text=Artwork+2" alt="Artwork 2">
             </div>
         </div>
+        <div class="blog">
+            <h2>Latest Blog Posts</h2>
+            <p>Stay updated with my latest blog posts and thoughts.</p>
+            <ul>
+                <li><a href="#">Blog Post 1</a></li>
+                <li><a href="#">Blog Post 2</a></li>
+                <li><a href="#">Blog Post 3</a></li>
+            </ul>
+        </div>
+        <div class="contact">
+            <h2>Contact Me</h2>
+            <p>Feel free to reach out to me through my social media channels or send me an email.</p>
+            <ul>
+                <li>Email: <a href="mailto:example@example.com">example@example.com</a></li>
+                <li>Twitter: <a href="https://twitter.com/example" target="_blank">@example</a></li>
+                <li>LinkedIn: <a href="https://linkedin.com/in/example" target="_blank">example</a></li>
+            </ul>
+        </div>
     </div>
 
     <div class="footer">
@@ -94,7 +134,6 @@
     <script>
         // Visitor Entrance function
         function enterVisitor() {
-            document.getElementById('welcomeScreen').classList.add('hidden');
             document.getElementById('visitorContent').classList.remove('hidden');
         }
 
