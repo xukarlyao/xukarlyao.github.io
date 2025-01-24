@@ -8,7 +8,7 @@
         body {
             margin: 0;
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to bottom, #87CEEB, #1E90FF); /* Gradient background */
+            background-color: #87CEEB; /* 这里更改为你喜欢的底色 */
             color: #333;
             display: flex;
             justify-content: center;
@@ -122,11 +122,65 @@
             <h2>About Me</h2>
             <p>Hello! I'm 徐垚 XuYao. Welcome to my personal website where I share my thoughts, artworks, and experiences.</p>
         </div>
+        <div class="section hidden" id="myShare">
+            <h2>My Share</h2>
+            <p>Here you can find my latest blog posts, photos, and videos. Enjoy!</p>
+            <div class="gallery">
+                <img src="https://via.placeholder.com/800x400?text=Artwork+1" alt="Artwork 1">
+                <img src="https://via.placeholder.com/800x400?text=Artwork+2" alt="Artwork 2">
+            </div>
+        </div>
+        <div class="section hidden" id="blogPosts">
+            <h2>Latest Blog Posts</h2>
+            <p>Stay updated with my latest blog posts and thoughts.</p>
+            <ul>
+                <li><a href="#">Blog Post 1</a></li>
+                <li><a href="#">Blog Post 2</a></li>
+                <li><a href="#">Blog Post 3</a></li>
+            </ul>
+        </div>
+        <div class="section hidden" id="contactMe">
+            <h2>Contact Me</h2>
+            <p>Feel free to reach out to me through my social media channels or send me an email.</p>
+            <ul>
+                <li>Email: <a href="mailto:example@example.com">example@example.com</a></li>
+                <li>Twitter: <a href="https://twitter.com/example" target="_blank">@example</a></li>
+                <li>LinkedIn: <a href="https://linkedin.com/in/example" target="_blank">example</a></li>
+            </ul>
+        </div>
     </div>
 
     <div class="footer">
         <p>&copy; 2025 徐垚 XuYao. All rights reserved.</p>
     </div>
+
+    <script>
+        // Visitor Entrance function
+        function enterVisitor() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+        }
+
+        // Show specific section
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        // Caitie and Xuyao Login function
+        function googleLogin(role) {
+            if (role === 'xuyao') {
+                // Show edit options for Xuyao
+                alert('This feature requires Firebase configuration.');
+            } else {
+                alert('This feature requires Firebase configuration.');
+            }
+        }
+        document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+});
+    </script>
 
 </body>
 </html>
