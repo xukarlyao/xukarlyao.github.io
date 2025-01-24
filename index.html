@@ -53,14 +53,14 @@
             max-width: 1200px;
             margin: auto;
         }
-        .intro, .share, .blog, .contact {
+        .section {
             background: white;
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .intro h2, .share h2, .blog h2, .contact h2 {
+        .section h2 {
             color: #1E90FF;
         }
         .gallery img {
@@ -77,6 +77,14 @@
             width: 100%;
             bottom: 0;
         }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .nav-buttons .btn {
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
@@ -89,12 +97,18 @@
         <button class="btn" onclick="googleLogin('xuyao')">Xuyao Enter</button>
     </div>
 
-    <div class="container main-container hidden" id="visitorContent">
-        <div class="intro">
+    <div class="container main-container hidden" id="mainContent">
+        <div class="nav-buttons">
+            <button class="btn" onclick="showSection('aboutMe')">About Me</button>
+            <button class="btn" onclick="showSection('myShare')">My Share</button>
+            <button class="btn" onclick="showSection('blogPosts')">Blog Posts</button>
+            <button class="btn" onclick="showSection('contactMe')">Contact Me</button>
+        </div>
+        <div class="section hidden" id="aboutMe">
             <h2>About Me</h2>
             <p>Hello! I'm 徐垚 XuYao. Welcome to my personal website where I share my thoughts, artworks, and experiences.</p>
         </div>
-        <div class="share">
+        <div class="section hidden" id="myShare">
             <h2>My Share</h2>
             <p>Here you can find my latest blog posts, photos, and videos. Enjoy!</p>
             <div class="gallery">
@@ -102,7 +116,7 @@
                 <img src="https://via.placeholder.com/800x400?text=Artwork+2" alt="Artwork 2">
             </div>
         </div>
-        <div class="blog">
+        <div class="section hidden" id="blogPosts">
             <h2>Latest Blog Posts</h2>
             <p>Stay updated with my latest blog posts and thoughts.</p>
             <ul>
@@ -111,7 +125,7 @@
                 <li><a href="#">Blog Post 3</a></li>
             </ul>
         </div>
-        <div class="contact">
+        <div class="section hidden" id="contactMe">
             <h2>Contact Me</h2>
             <p>Feel free to reach out to me through my social media channels or send me an email.</p>
             <ul>
@@ -130,15 +144,17 @@
         // Visitor Entrance function
         function enterVisitor() {
             document.getElementById('welcomeScreen').classList.add('hidden');
-            document.getElementById('visitorContent').classList.remove('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+        }
+
+        // Show specific section
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
         }
 
         // Caitie Login function
-        function googleLogin(role) {
-            alert('This feature requires Firebase configuration.');
-        }
-
-        // Xuyao Login function
         function googleLogin(role) {
             alert('This feature requires Firebase configuration.');
         }
